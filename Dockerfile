@@ -1,6 +1,6 @@
 FROM debian:buster
 LABEL MAINTAINER="docker@ix.ai"
-ENV DEBIAN_FRONTEND=noninteractive TERM=linux
+ENV DEBIAN_FRONTEND=noninteractive TERM=linux DB_PORT=3306 DB_USER=root
 
 RUN groupadd -g 666 mybackup && \
     useradd -u 666 -g 666 -d /backup -c "MariaDB Backup User" mybackup && \
