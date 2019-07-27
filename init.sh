@@ -8,6 +8,8 @@ set -e
 
 MODE=${MODE:-BACKUP}
 TARBALL=${TARBALL:-}
+DB_PORT=${DB_PORT:-3306}
+DB_USER=${DB_USER:-root}
 
 case "${MODE^^}" in
     'BACKUP')
@@ -53,35 +55,33 @@ echo
 # Display the container informations on standard out.
 #
 
-CONTAINER=$(export | sed -nr "/ENV_MYSQL_ROOT_PASSWORD/{s/^.+ -x (.+)_ENV.+/\1/p;q}")
-
-if [[ -z "${CONTAINER}" ]]
+if [[ -z "${DB_HOST}" ]]
 then
-    echo "ERROR: Couldn't find linked MySQL container." >&2
+    echo "ERROR: Couldn't find the SQL host." >&2
     echo >&2
-    echo "Please link a MySQL or MariaDB container to the backup container and try again" >&2
+    echo "Please set the DB_HOST environment variable" >&2
     exit 1
 fi
 
-DB_PORT=$(export | sed -nr "/-x ${CONTAINER}_PORT_[[:digit:]]+_TCP_PORT/{s/^.+ -x (.+)=.+/\1/p}")
-DB_ADDR="${CONTAINER}_PORT_${!DB_PORT}_TCP_ADDR"
-DB_NAME="${CONTAINER}_ENV_MYSQL_DATABASE"
-DB_PASS="${CONTAINER}_ENV_MYSQL_ROOT_PASSWORD"
-
-echo "CONTAINER SETTINGS"
-echo "=================="
-echo
-echo "  Container: ${CONTAINER}"
-echo
-echo "  Address:   ${!DB_ADDR}"
-echo "  Port:      ${!DB_PORT}"
-echo
-
-if [[ -n "${!DB_NAME}" ]]
+if [[ -z "${DB_PASS}" ]]
 then
-    echo "  Database:  ${!DB_NAME}"
-    echo
+    echo "ERROR: Couldn't find the password for the root user." >&2
+    echo >&2
+    echo "Please set the DB_PASS environment variable" >&2
+    exit 1
 fi
+
+echo "DATABASE SETTINGS"
+echo "================="
+echo
+echo "  Host:      ${DB_HOST}"
+echo "  Port:      ${DB_PORT}"
+echo "  User:      ${DB_USER}"
+if [[ -n "${DB_NAME}" ]]
+then
+    echo "  Database:  ${DB_NAME}"
+fi
+echo
 
 #
 # Change UID / GID of backup user and settings umask.
@@ -97,11 +97,11 @@ umask ${UMASK}
 #
 #
 
-CLI_OPTIONS="-v 3 -h ${!DB_ADDR} -P ${!DB_PORT} -u root -p ${!DB_PASS}"
+CLI_OPTIONS="-v 3 -h ${DB_HOST} -P ${DB_PORT} -u ${DB_USER} -p ${DB_PASS}"
 
-if [[ -n "${!DB_NAME}" ]]
+if [[ -n "${DB_NAME}" ]]
 then
-    CLI_OPTIONS+=" -B ${!DB_NAME}"
+    CLI_OPTIONS+=" -B ${DB_NAME}"
 fi
 
 CLI_OPTIONS+=" ${OPTIONS}"

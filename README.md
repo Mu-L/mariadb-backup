@@ -8,12 +8,16 @@ The backup is made with [mydumper](http://centminmod.com/mydumper.html), a fast 
 Usage
 =====
 
-To backup a [MySQL](https://hub.docker.com/_/mysql/) or [MariaDB](https://hub.docker.com/_/mariadb/) container you simply have to run a container from this Docker image and link a MySQL or MariaDB container to it.
+To backup a [MySQL](https://hub.docker.com/_/mysql/) or [MariaDB](https://hub.docker.com/_/mariadb/) database, you simply specify the credentials and the host. You can optionally specify the database as well.
 
-The container will automatically detect the linked database container and tries to backup the database based on the environment variables of the database container:
+Environment variables
+=====================
 
-* `<CONTAINER>_ENV_MYSQL_DATABASE`
-* `<CONTAINER>_ENV_MYSQL_ROOT_PASSWORD`
+* `DB_HOST` (mandatory, no default): The host to connect to
+* `DB_PASS` (mandatory, no default): The password to use
+* `DB_NAME` (optional, no default): If specified, only this database will be backed up
+* `DB_PORT` (optional, default `3306`): The password for the SQL server
+* `DB_USER` (optional, default `root`): The user to connect to the SQL server
 
 Please note the backup will be written to `/backup` by default, so you might want to mount that directory from your host.
 
@@ -23,7 +27,7 @@ Example Docker CLI client
 To __create a backup__ from a MySQL container via `docker` CLI client:
 
 ```bash
-docker run --name my-backup --link my-mysql -v /var/mysql_backups:/backup registry.gitlab.com/ix.ai/mariadb-backup
+docker run --name my-backup -e DB_HOST=mariadb -e DB_PASS=amazing_pass -v /var/mysql_backups:/backup registry.gitlab.com/ix.ai/mariadb-backup
 ```
 
 The container will stop automatically as soon as the backup has finished.
@@ -36,22 +40,7 @@ docker start my-backup
 To __restore a backup__ into a MySQL container via `docker` CLI client:
 
 ```bash
-docker run --name my-restore --link my-mysql -v /var/mysql_backups:/backup registry.gitlab.com/ix.ai/mariadb-backup
-```
-
-Example Docker Compose
-----------------------
-
-Here's an example of a [Docker Compose](https://docs.docker.com/compose/) file, e.g. `docker-compose.yml`:
-
-```yaml
-backup:
-    image: registry.gitlab.com/ix.ai/mariadb-backup
-    volumes:
-        - ./data/backup:/backup
-    links:
-        - my-mysql
-    restart: "no"
+docker run --name my-restore -e DB_HOST=mariadb -e DB_PASS=amazing_pass -v /var/mysql_backups:/backup registry.gitlab.com/ix.ai/mariadb-backup
 ```
 
 Configuration
