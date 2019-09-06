@@ -151,14 +151,14 @@ then
     if [[ "${TARBALL^^}" != "" ]]
     then
         RESTORE_DIR=${TARBALL}
-        rm -rf ${RESTORE_DIR}
+        rm -rf "${RESTORE_DIR}"
         echo "===> Restoring database from ${RESTORE_DIR}..."
         exec su -pc "tar -xvf ${TARBALL}.tgz ${RESTORE_DIR} && myloader --directory=${RESTORE_DIR} ${CLI_OPTIONS}" ${USER}
     else
         if [[ -z "${RESTORE_DIR}" ]]
         then
             printf "===> No RESTORE_DIR set, trying to find latest backup... "
-            RESTORE_DIR=$(ls -t | head -1)
+            RESTORE_DIR=$(find . -maxdepth 1)
             if [[ -n "${RESTORE_DIR}" ]]
             then
                 echo "DONE"
