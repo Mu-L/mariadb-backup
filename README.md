@@ -120,6 +120,14 @@ However, you can modify the CLI options by setting the following environment var
 
 * `OPTIONS`: Options passed to `mydumper` (when `MODE` is `BACKUP`) or `myloader` (when `MODE` is `RESTORE`)
 
+## Tags and Arch
+
+Starting with version v0.0.2, the images are multi-arch, with builds for amd64, arm64 and armv7.
+* `vN.N.N` - for example v0.0.2
+* `latest` - always pointing to the latest version
+* `dev-branch` - the last build on a feature/development branch
+* `dev-master` - the last build on the master branch
+
 ## Credits
 
 Special thanks to [confirm/docker-mysql-backup](https://github.com/confirm/docker-mysql-backup), which this project uses heavily.
