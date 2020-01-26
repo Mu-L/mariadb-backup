@@ -1,6 +1,8 @@
 FROM debian:buster
-LABEL MAINTAINER="docker@ix.ai"
-ENV DEBIAN_FRONTEND=noninteractive TERM=linux DB_PORT=3306 DB_USER=root
+LABEL maintainer="docker@ix.ai" \
+      ai.ix.repository="ix.ai/etherscan-exporter"
+
+ENV DEBIAN_FRONTEND=noninteractive TERM=linux
 
 COPY src/ /app
 
@@ -17,5 +19,7 @@ RUN chmod 755 /app/*.sh && \
 
 VOLUME ["/backup"]
 WORKDIR /backup
+
+ENV DB_PORT=3306 DB_USER=root
 
 ENTRYPOINT ["/app/mariadb-backup.sh"]

@@ -122,10 +122,9 @@ However, you can modify the CLI options by setting the following environment var
 
 ## Tags and Arch
 
-Starting with version v0.0.2, the images are multi-arch, with builds for amd64, arm64 and armv7.
+Starting with version v0.0.3, the images are multi-arch, with builds for amd64, arm64, armv7 and armv6.
 * `vN.N.N` - for example v0.0.2
 * `latest` - always pointing to the latest version
-* `dev-branch` - the last build on a feature/development branch
 * `dev-master` - the last build on the master branch
 
 ## Credits
