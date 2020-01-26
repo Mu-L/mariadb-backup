@@ -127,6 +127,11 @@ Starting with version v0.0.3, the images are multi-arch, with builds for amd64, 
 * `latest` - always pointing to the latest version
 * `dev-master` - the last build on the master branch
 
+## Resources:
+* GitLab: https://gitlab.com/ix.ai/mariadb-backup
+* GitHub: https://github.com/ix-ai/mariadb-backup
+* Docker Hub: https://hub.docker.com/r/ixdotai/mariadb-backup
+
 ## Credits
 
 Special thanks to [confirm/docker-mysql-backup](https://github.com/confirm/docker-mysql-backup), which this project uses heavily.
