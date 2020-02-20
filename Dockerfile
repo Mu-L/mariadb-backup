@@ -1,6 +1,6 @@
 FROM debian:buster
 LABEL maintainer="docker@ix.ai" \
-      ai.ix.repository="ix.ai/etherscan-exporter"
+      ai.ix.repository="ix.ai/mariadb-backup"
 
 ENV DEBIAN_FRONTEND=noninteractive TERM=linux
 
