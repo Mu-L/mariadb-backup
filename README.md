@@ -36,7 +36,7 @@ Please note the backup will be written to `/backup` by default, so you might wan
 To __create a backup__ from a MySQL container via `docker` CLI client:
 
 ```bash
-docker run --name my-backup -e DB_HOST=mariadb -e DB_PASS=amazing_pass -v /var/mysql_backups:/backup ixdotai/mariadb-backup:latest
+docker run --name my-backup -e DB_HOST=mariadb -e DB_PASS=amazing_pass -v /var/mysql_backups:/backup registry.gitlab.com/ix.ai/mariadb-backup:latest
 ```
 
 The container will stop automatically as soon as the backup has finished.
@@ -49,7 +49,7 @@ docker start my-backup
 To __restore a backup__ into a MySQL container via `docker` CLI client:
 
 ```bash
-docker run --name my-restore -e DB_HOST=mariadb -e DB_PASS=amazing_pass -v /var/mysql_backups:/backup ixdotai/mariadb-backup:latest
+docker run --name my-restore -e DB_HOST=mariadb -e DB_PASS=amazing_pass -v /var/mysql_backups:/backup registry.gitlab.com/ix.ai/mariadb-backup:latest
 ```
 
 ## Script example
@@ -59,14 +59,14 @@ To back up multiple databases, all running in docker, all labeled with `mariadb-
 #!/usr/bin/env bash
 /bin/mkdir -p /mariadb-backup
 
-/usr/bin/docker pull ixdotai/mariadb-backup:latest
+/usr/bin/docker pull registry.gitlab.com/ix.ai/mariadb-backup:latest
 
 for CONTAINER in $(/usr/bin/docker ps -f label=mariadb-backup --format='{{.Names}}'); do
   DB_PASS=$(/usr/bin/docker inspect ${CONTAINER}|/usr/bin/jq -r '.[0]|.Config.Env[]|select(test("^MARIADB_ROOT_PASSWORD.*"))'|/bin/sed -n 's/^MARIADB_ROOT_PASSWORD=\(.*\)/\1/p')
   DB_NAME=$(/usr/bin/docker inspect ${CONTAINER}|/usr/bin/jq -r '.[0]|.Config.Env[]|select(test("^MARIADB_DATABASE.*"))'|/bin/sed -n 's/^MARIADB_DATABASE=\(.*\)/\1/p')
   DB_NET=$(/usr/bin/docker inspect ${CONTAINER}|/usr/bin/jq -r '.[0]|.NetworkSettings.Networks|to_entries[]|.key')
   if [[ -n "${DB_PASS}" ]]; then
-    /usr/bin/docker run --rm --name ${CONTAINER}-backup -e DB_PASS=${DB_PASS} -e DB_HOST=${CONTAINER} -e DB_NAME=${DB_NAME} --network ${DB_NET} -v /mariadb-backup:/backup ixdotai/mariadb-backup:latest
+    /usr/bin/docker run --rm --name ${CONTAINER}-backup -e DB_PASS=${DB_PASS} -e DB_HOST=${CONTAINER} -e DB_NAME=${DB_NAME} --network ${DB_NET} -v /mariadb-backup:/backup registry.gitlab.com/ix.ai/mariadb-backup:latest
   fi
 done
 
@@ -130,6 +130,7 @@ Starting with version v0.0.3, the images are multi-arch, with builds for amd64, 
 ## Resources:
 * GitLab: https://gitlab.com/ix.ai/mariadb-backup
 * GitHub: https://github.com/ix-ai/mariadb-backup
+* GitLab Registry: https://gitlab.com/ix.ai/mariadb-backup/container_registry
 * Docker Hub: https://hub.docker.com/r/ixdotai/mariadb-backup
 
 ## Credits
