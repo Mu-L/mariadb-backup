@@ -1,6 +1,7 @@
 ---
 variables:
   DOCKERHUB_REPO_NAME: mariadb-backup
+  GITHUB_REPO_NAME: ix-ai/mariadb-backup
   ENABLE_ARM64: 'true'
   ENABLE_ARMv7: 'true'
   ENABLE_386: 'true'
