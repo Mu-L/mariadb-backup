@@ -14,6 +14,7 @@ The backup is made with [mydumper](http://centminmod.com/mydumper.html), a fast 
 To backup a [MySQL](https://hub.docker.com/_/mysql/) or [MariaDB](https://hub.docker.com/_/mariadb/) database, you simply specify the credentials and the host. You can optionally specify the database as well.
 
 ## Environment variables
+
 | **Variable**  | **Default** | **Mandatory** | **Description**                                      |
 |:--------------|:-----------:|:-------------:|:-----------------------------------------------------|
 | `DB_HOST`     | -           | *yes*         | The host to connect to                               |
@@ -33,7 +34,7 @@ Please note the backup will be written to `/backup` by default, so you might wan
 
 ## Example Docker CLI client
 
-To __create a backup__ from a MySQL container via `docker` CLI client:
+To **create a backup** from a MySQL container via `docker` CLI client:
 
 ```bash
 docker run --name my-backup -e DB_HOST=mariadb -e DB_PASS=amazing_pass -v /var/mysql_backups:/backup registry.gitlab.com/ix.ai/mariadb-backup:latest
@@ -46,15 +47,17 @@ To create more backups in the future simply start your container again:
 docker start my-backup
 ```
 
-To __restore a backup__ into a MySQL container via `docker` CLI client:
+To **restore a backup** into a MySQL container via `docker` CLI client:
 
 ```bash
 docker run --name my-restore -e DB_HOST=mariadb -e DB_PASS=amazing_pass -v /var/mysql_backups:/backup registry.gitlab.com/ix.ai/mariadb-backup:latest
 ```
 
 ## Script example
+
 The following example uses the image []() for MariaDB.
 To back up multiple databases, all running in docker, all labeled with `mariadb-backup`:
+
 ```bash
 #!/usr/bin/env bash
 /bin/mkdir -p /mariadb-backup
@@ -73,7 +76,6 @@ done
 ```
 
 ## Configuration
-
 
 ### Mode
 
@@ -96,7 +98,7 @@ However, you can manually set the name of a backup directory underneath `BASE_DI
 
 * `RESTORE_DIR`: Name of a backup directory to restore
 
-_This option is only required when the container runs in in `RESTORE` mode._
+*This option is only required when the container runs in in `RESTORE` mode.*
 
 ### UID and GID
 
@@ -122,16 +124,17 @@ However, you can modify the CLI options by setting the following environment var
 
 ## Tags and Arch
 
-Starting with version v0.0.3, the images are multi-arch, with builds for amd64, arm64, armv7 and armv6.
+Starting with version v0.0.3, the images are multi-arch, with builds for amd64, arm64, armv7. Support for armv6 has been dropped.
+
 * `vN.N.N` - for example v0.0.2
 * `latest` - always pointing to the latest version
 * `dev-master` - the last build on the master branch
 
-## Resources:
-* GitLab: https://gitlab.com/ix.ai/mariadb-backup
-* GitHub: https://github.com/ix-ai/mariadb-backup
-* GitLab Registry: https://gitlab.com/ix.ai/mariadb-backup/container_registry
-* Docker Hub: https://hub.docker.com/r/ixdotai/mariadb-backup
+## Resources
+
+* Gitlab Registry: `registry.gitlab.com/ix.ai/mariadb-backup` - [gitlab.com/ix.ai/mariadb-backup](https://gitlab.com/ix.ai/mariadb-backup)
+* GitHub Registry: `ghcr.io/ix-ai/mariadb-backup` [github.com/ix-ai/mariadb-backup](https://github.com/ix-ai/mariadb-backup)
+* Docker Hub: `ixdotai/mariadb-backup` - [hub.docker.com/r/ixdotai/mariadb-backup](https://hub.docker.com/r/ixdotai/mariadb-backup)
 
 ## Credits
 

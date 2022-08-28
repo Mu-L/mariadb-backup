@@ -3,7 +3,6 @@ variables:
   DOCKERHUB_REPO_NAME: mariadb-backup
   ENABLE_ARM64: 'true'
   ENABLE_ARMv7: 'true'
-  ENABLE_ARMv6: 'true'
   ENABLE_i386: 'true'
 
 include:
