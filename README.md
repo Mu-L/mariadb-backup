@@ -55,7 +55,6 @@ docker run --name my-restore -e DB_HOST=mariadb -e DB_PASS=amazing_pass -v /var/
 
 ## Script example
 
-The following example uses the image []() for MariaDB.
 To back up multiple databases, all running in docker, all labeled with `mariadb-backup`:
 
 ```bash
