@@ -6,6 +6,37 @@ set -e
 # Based on the mode, different default options will be set.
 #
 
+file_env() {
+   local var="$1"
+   local fileVar="${var}__FILE"
+   local def="${2:-}"
+
+   if [ "${!var:-}" ] && [ "${!fileVar:-}" ]; then
+      echo >&2 "error: both $var and $fileVar are set (but are exclusive)"
+      exit 1
+   fi
+   local val="$def"
+   if [ "${!var:-}" ]; then
+      val="${!var}"
+   elif [ "${!fileVar:-}" ]; then
+      val="$(< "${!fileVar}")"
+   fi
+   export "$var"="$val"
+   unset "$fileVar"
+}
+
+if [[ "${DB_USER}" == "root" ]]; then
+    #
+    # If this is set to the default, then unset it in case we are going to get it from a secret
+    #
+    unset DB_USER
+fi
+
+file_env "DB_PASS"
+file_env "DB_USER"
+file_env "DB_HOST"
+file_env "DB_NAME"
+
 MODE=${MODE:-BACKUP}
 TARBALL=${TARBALL:-}
 DB_PORT=${DB_PORT:-3306}
@@ -43,7 +74,7 @@ echo "  UID:                ${BACKUP_UID:=666}"
 echo "  GID:                ${BACKUP_GID:=666}"
 echo "  Umask:              ${UMASK:=0022}"
 echo
-echo "  Base directory: i   ${BASE_DIR:=/backup}"
+echo "  Base directory:     ${BASE_DIR:=/backup}"
 [[ "${MODE^^}" == "RESTORE" ]] && \
 echo "  Restore directory:  ${RESTORE_DIR}"
 echo
