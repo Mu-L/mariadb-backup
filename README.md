@@ -15,20 +15,22 @@ To backup a [MySQL](https://hub.docker.com/_/mysql/) or [MariaDB](https://hub.do
 
 ## Environment variables
 
-| **Variable**  | **Default** | **Mandatory** | **Description**                                      |
-|:--------------|:-----------:|:-------------:|:-----------------------------------------------------|
-| `DB_HOST`     | -           | *yes*         | The host to connect to                               |
-| `DB_PASS`     | -           | *yes*         | The password for the SQL server                      |
-| `DB_NAME`     | -           | *no*          | If specified, only this database will be backed up   |
-| `DB_PORT`     | `3306`      | *no*          | The port of the SQL server                           |
-| `DB_USER`     | `root`      | *no*          | The user to connect to the SQL server                |
-| `MODE`        | `BACKUP`    | *no*          | One of `BACKUP` or `RESTORE`                         |
-| `BASE_DIR`    | `/backup`   | *no*          | Path of the base directory (aka working directory)   |
-| `RESTORE_DIR` | -           | *no*          | Name of a backup directory to restore                |
-| `BACKUP_UID`  | `666`       | *no*          | UID of the backup                                    |
-| `BACKUP_GID`  | `666`       | *no*          | GID of the backup                                    |
-| `UMASK`       | `0022`      | *no*          | Umask which should be used to write the backup files |
-| `OPTIONS`     | `-c` / `-o` | *no*          | Options passed to `mydumper` / `myloader`            |
+| **Variable**  | **FILE Support** | **Default** | **Mandatory** | **Description**                                      |
+|:--------------|:----------------:|:-----------:|:-------------:|:-----------------------------------------------------|
+| `DB_HOST`     | `DB_HOST__FILE`  | -           | *yes*         | The host to connect to                               |
+| `DB_PASS`     | `DB_PASS__FILE`  | -           | *yes*         | The password for the SQL server                      |
+| `DB_NAME`     | `DB_NAME__FILE`  | -           | *no*          | If specified, only this database will be backed up   |
+| `DB_PORT`     | N/A              | `3306`      | *no*          | The port of the SQL server                           |
+| `DB_USER`     | `DB_USER__FILE`  | `root`      | *no*          | The user to connect to the SQL server                |
+| `MODE`        | N/A              | `BACKUP`    | *no*          | One of `BACKUP` or `RESTORE`                         |
+| `BASE_DIR`    | N/A              | `/backup`   | *no*          | Path of the base directory (aka working directory)   |
+| `RESTORE_DIR` | N/A              | -           | *no*          | Name of a backup directory to restore                |
+| `BACKUP_UID`  | N/A              | `666`       | *no*          | UID of the backup                                    |
+| `BACKUP_GID`  | N/A              | `666`       | *no*          | GID of the backup                                    |
+| `UMASK`       | N/A              | `0022`      | *no*          | Umask which should be used to write the backup files |
+| `OPTIONS`     | N/A              | `-c` / `-o` | *no*          | Options passed to `mydumper` / `myloader`            |
+
+The following environment variables support setting via `*__FILE`, where
 
 Please note the backup will be written to `/backup` by default, so you might want to mount that directory from your host.
 
