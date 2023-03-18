@@ -52,7 +52,7 @@ docker start my-backup
 To **restore a backup** into a MySQL container via `docker` CLI client:
 
 ```bash
-docker run --name my-restore -e DB_HOST=mariadb -e DB_PASS=amazing_pass -v /var/mysql_backups:/backup registry.gitlab.com/ix.ai/mariadb-backup:latest
+docker run --name my-restore -e DB_HOST=mariadb -e DB_PASS=amazing_pass -e MODE=RESTORE -v /var/mysql_backups:/backup registry.gitlab.com/ix.ai/mariadb-backup:latest
 ```
 
 ## Script example
