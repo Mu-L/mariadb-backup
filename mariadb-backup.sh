@@ -2,7 +2,7 @@
 set -e
 
 #
-# Retreive and check mode, which can either be "BACKUP" or "RESTORE".
+# Retrieve and check mode, which can either be "BACKUP" or "RESTORE".
 # Based on the mode, different default options will be set.
 #
 
@@ -46,7 +46,7 @@ case "${MODE^^}" in
     'BACKUP')
         if [[ "${TARBALL^^}" != "" ]]
         then
-            OPTIONS="--outputdir=${TARBALL}"
+            OPTIONS="${OPTIONS:--c} --outputdir=${TARBALL}"
         else
             OPTIONS=${OPTIONS:--c}
         fi
@@ -60,7 +60,7 @@ case "${MODE^^}" in
 esac
 
 #
-# Retreive backup settings and set some defaults.
+# Retrieve backup settings and set some defaults.
 # Then display the settings on standard out.
 #
 
