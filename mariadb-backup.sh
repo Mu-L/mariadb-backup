@@ -118,10 +118,10 @@ echo
 # Change UID / GID of backup user and settings umask.
 #
 
-[[ "$(id -u ${USER})" == "${BACKUP_UID}" ]] || usermod  -o -u $BACKUP_UID ${USER}
-[[ "$(id -g ${USER})" == "${BACKUP_GID}" ]] || groupmod -o -g $BACKUP_GID ${USER}
+[[ "$(id -u ${USER})" == "${BACKUP_UID}" ]] || usermod  -o -u "$BACKUP_UID" ${USER}
+[[ "$(id -g ${USER})" == "${BACKUP_GID}" ]] || groupmod -o -g "$BACKUP_GID" ${USER}
 
-umask ${UMASK}
+umask "${UMASK}"
 
 #
 # Building common CLI options to use for mydumper and myloader.
@@ -149,15 +149,15 @@ if [[ "${MODE^^}" == "BACKUP" ]]
 then
 
     printf "===> Creating base directory... "
-    mkdir -p ${BASE_DIR}
+    mkdir -p "${BASE_DIR}"
     echo "DONE"
 
     printf "===> Changing owner of base directory... "
-    chown ${USER}: ${BASE_DIR}
+    chown ${USER}: "${BASE_DIR}"
     echo "DONE"
 
     printf "===> Changing into base directory... "
-    cd ${BASE_DIR}
+    cd "${BASE_DIR}"
     echo "DONE"
 
     echo "===> Starting backup..."
@@ -176,7 +176,7 @@ elif [[ "${MODE^^}" == "RESTORE" ]]
 then
 
     printf "===> Changing into base directory... "
-    cd ${BASE_DIR}
+    cd "${BASE_DIR}"
     echo "DONE"
 
     if [[ "${TARBALL^^}" != "" ]]
