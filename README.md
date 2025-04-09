@@ -1,8 +1,6 @@
 # mariadb-backup
 
 [![Pipeline Status](https://gitlab.com/ix.ai/mariadb-backup/badges/master/pipeline.svg)](https://gitlab.com/ix.ai/mariadb-backup/)
-[![Docker Stars](https://img.shields.io/docker/stars/ixdotai/mariadb-backup.svg)](https://hub.docker.com/r/ixdotai/mariadb-backup/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/ixdotai/mariadb-backup.svg)](https://hub.docker.com/r/ixdotai/mariadb-backup/)
 [![Gitlab Project](https://img.shields.io/badge/GitLab-Project-554488.svg)](https://gitlab.com/ix.ai/mariadb-backup/)
 
 The mariadb-backup Docker image will provide you a container to backup and restore a [MySQL](https://hub.docker.com/_/mysql/) or [MariaDB](https://hub.docker.com/_/mariadb/) database container.
